@@ -11,10 +11,18 @@ export default function About() {
           content="You really need to read this website because it's made with Next.js"
         />
       </Head>
-      <h1>About Me</h1>
-      <div>
-        <Link href="/">Home</Link>
-        <Link href="/post/123">My Blog Post</Link>
+      <div className="flex justify-center text-2xl items-center h-screen">
+        <div>
+          <div>
+            <Link href="/">Home</Link>
+          </div>
+          <div>
+            <Link href="/post/123">My Blog Post</Link>
+          </div>
+          <div>
+            <Link href="/about">About</Link>
+          </div>
+        </div>
       </div>
     </div>
   );
