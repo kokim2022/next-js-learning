@@ -1,21 +1,30 @@
 import Link from "next/link";
-import Head from "next/head";
+import { useEffect, useState } from "react";
+
+interface Person {
+  name: string;
+}
 
 export default function About() {
+  const [data, setData] = useState<Person>();
+  const [isLoading, setLoading] = useState(false);
+
+  useEffect(() => {
+    setLoading(true);
+    fetch("api/about")
+      .then((res) => res.json())
+      .then((data) => {
+        setData(data);
+        setLoading(false);
+      });
+  }, []);
+
+  if (isLoading) return <p>Loading...</p>;
+  if (!data) return <p>No about data</p>;
+
   return (
-    <div>
-      <Head>
-        <title>About | My Cool Site</title>
-        <meta
-          name="description"
-          content="You really need to read this website because it's made with Next.js"
-        />
-      </Head>
-      <h1>About Me</h1>
-      <div>
-        <Link href="/">Home</Link>
-        <Link href="/post/123">My Blog Post</Link>
-      </div>
+    <div className="text-xl">
+      <div>My name is: {data.name}</div>
     </div>
   );
 }
