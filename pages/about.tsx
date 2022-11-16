@@ -1,30 +1,16 @@
-import Link from "next/link";
-import { useEffect, useState } from "react";
+import useSWR from "swr";
 
-interface Person {
-  name: string;
-}
+const fetcher = (...args: any[]) => fetch(...args).then((res) => res.json());
 
 export default function About() {
-  const [data, setData] = useState<Person>();
-  const [isLoading, setLoading] = useState(false);
+  const { data, error } = useSWR("/api/about", fetcher);
 
-  useEffect(() => {
-    setLoading(true);
-    fetch("api/about")
-      .then((res) => res.json())
-      .then((data) => {
-        setData(data);
-        setLoading(false);
-      });
-  }, []);
-
-  if (isLoading) return <p>Loading...</p>;
-  if (!data) return <p>No about data</p>;
+  if (error) return <div>Error fetching data</div>;
+  if (!data) return <div>Loading...</div>;
 
   return (
-    <div className="text-xl">
-      <div>My name is: {data.name}</div>
+    <div className="text-center text-2xl text-red-600">
+      <h1>{data.name}</h1>
     </div>
   );
 }
